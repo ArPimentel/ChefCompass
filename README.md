@@ -1,3 +1,8 @@
+# ChefCompass
+Chef's Compass - Frontend Edition is the frontend component of the Chef's Compass recipe finding app. Developed using Angular framework, it offers a user-friendly interface that allows users to discover a wide range of recipes based on their hunger-tackling desires and the ingredients they have stocked in their kitchen. With an intuitive design and seamless navigation, Chef's Compass makes it easy for users to search, save, and explore recipes that match their preferences.
+
+The frontend utilizes the power of Angular to provide a responsive and interactive experience. It integrates with the backend API to retrieve recipe data, display recipe details, and enable users to save their favorite recipes. Chef's Compass - Frontend Edition also offers advanced features such as personalized recommendations, dietary filters, and cooking instructions to assist users in their culinary journey. Join us in developing this dynamic frontend to create an exceptional recipe finding app that simplifies the cooking process and brings joy to users' kitchens.
+
 # AngularTemplate
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.1.
@@ -26,5 +31,3 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 =======
-# ChefCompass
-Chef’s Compass is a recipe finding app for you the user, to help find a recipe based on your hunger-tackling desires and any ingredients stocked in your kitchen. Not sure how to use them effectively? Let Chef’s Compass show you the way.
