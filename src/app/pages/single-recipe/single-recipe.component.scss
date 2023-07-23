@@ -1,0 +1,231 @@
+@use '../../style/_mixin' as *;
+@use '../../style/_variables' as *;
+@use '../../style/_animation' as *;
+
+:host {
+    display: block;
+    position: relative;
+  }
+
+:host::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 125%;
+  background-image: url("/assets/backgroundPage/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+}
+
+.title {
+    text-align: center;
+    padding-bottom: 5vh;
+    margin: 0;
+    white-space: nowrap;
+    &--Word{
+      color: $primaryColor;
+    }
+}
+b:hover{
+  color: $primaryColor;
+}
+.container{
+  background: rgba(255, 255, 255, 0.56);
+  backdrop-filter: blur(11px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+}
+.recipe{
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  padding: $paddingPageRoute;
+    &_fav{
+        position: absolute;
+        top: 2%;
+        right: 5%;
+        background-color:transparent;
+        border: none;
+        font-size: 1.8rem;
+        cursor:pointer;
+        &:hover , &--active {
+        opacity: 1;
+        color: $primaryColor;
+        }
+
+    }
+  &_delete{
+    position: absolute;
+    top: 2%;
+    left: 5%;
+    background-color:transparent;
+    border: none;
+    font-size: 1.8rem;
+    cursor:pointer;
+    &:hover , &--active {
+
+    color: $primaryColor;
+    }
+  }
+  &_origin{
+    display: flex;
+    margin: 30px;
+    padding-left: 50px;
+    gap: 15%;
+    &--back{
+      background: $colorGlass;
+      padding: 1vh 2vh ;
+      border-radius: 15px;
+    }
+  }
+    &_information{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    &--card{
+      display: flex;
+      flex-direction: column;
+      width: 550px;
+      background: $colorGlass;
+      border-radius: 15px;
+      padding: 3vh 2vh;
+      gap: 5%;
+      margin-right: 2vh;
+      &--time-price{
+        display: flex;
+        gap: 15%;
+        & h3{
+          margin: 0;
+        }
+      }
+        & h2{
+            margin-bottom: 16px;
+        }
+    }
+    &--img{
+        width: 350px;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+    }
+    &_details{
+        display: flex;
+        align-items: stretch;
+        margin:2vh 0;
+        justify-content: space-around;
+
+        & li{
+            margin: 10px 0;
+        }
+      &--steps{
+        width: 550px;
+        background: $colorGlass;
+        border-radius: 15px;
+        padding: 1vh 1vw;
+        margin-right: 2vh;
+      }
+      &--ingredients{
+        width: 350px;
+        background: $colorGlass;
+        border-radius: 15px;
+        & h2{
+         text-align: center;
+        }
+      }
+    }
+    &_comments{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 2vh;
+      &--ratings{
+        color: $primaryColor;
+        font-size: 1.4rem;
+        margin-bottom: 1vh;
+        padding-bottom: 1vh;
+      }
+      &--star {
+        &:hover {
+          font-size: 1.5rem;
+           }
+         }
+
+        &--send{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+          &--flex{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 550px;
+          }
+
+        & textarea{
+            resize: none;
+            border-radius:15px ;
+            border: 3px solid transparent;
+            aspect-ratio: 15/9;
+            min-width: 300px;
+            background-color: $colorGlass;
+
+            padding: 10px;
+            &:focus{
+              outline: none;
+              border: 3px solid $primaryColor;
+            }
+
+        }
+        & button{
+          @include button;
+
+            &:hover{
+                @include buttonHover;
+              }
+        }
+
+
+        }
+        &--msg {
+          max-height: 245px;
+          overflow-y: auto;
+          padding-right: 10px;
+          &::-webkit-scrollbar {
+            width: 5px;
+          }
+
+          &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background: $primaryColor;
+          }
+
+          &::-webkit-scrollbar-thumb:hover {
+            background: darken($primaryColor,20%);
+          }
+          &  p {
+            max-width: 350px;
+            padding: 18px;
+            border: $primaryColor solid 1px;
+            border-radius: 15px;
+            background-color: $colorGlass;
+            margin-bottom: 2vh;
+          }
+
+        }
+        &--score{
+          font-size: 1.2rem;
+        }
+    }
+
+}
+
