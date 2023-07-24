@@ -13,11 +13,14 @@ const APPETIZER_CATEGORY = 'Appetizers';
 const BREAKFAST_CATEGORY = 'Breakfasts';
 const SIDE_DISH_CATEGORY = 'SideDishes';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class RecipesService {
-  private recipesUrl = 'http://localhost:3000/recipes';
+
+
+  private recipesUrl = '../../assets/data/recipes.json';
 
   public recipes: Recipes = {
     desserts: [],
@@ -40,6 +43,9 @@ export class RecipesService {
 
   getRecipes(): Observable<Recipe[]> {
     return this.http.get<Recipe[]>(this.recipesUrl).pipe(catchError(this.handleError));
+
+    getRecipes(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(this.recipesUrl);
   }
 
   getAllRecipes(): Observable<Recipe[]> {
@@ -54,6 +60,27 @@ export class RecipesService {
     return this.getAllRecipes().pipe(map((recipes) => recipes.find((recipe) => recipe.id === id)));
   }
 
+  getRecipeByName(nameId: string): Observable<any> {
+    return this.getAllRecipes().pipe(
+      map((recipes) => recipes.find((recipe) => recipe.recipe_name.toLowerCase() === nameId.toLowerCase()))
+    );
+  }
+
+  getRecipeById(id: number): Observable<any> {
+    return this.getAllRecipes().pipe(map((recipes) => recipes.find((recipe) => recipe.recipe_id === id)));
+  }
+
+  getRecipeByCategory(category: string): Observable<Recipe[]> {
+    return this.getAllRecipes().pipe(
+      map((recipes) => recipes.filter((recipe) => recipe.recipe_type.toLowerCase() === category.toLowerCase()))
+    );
+  }
+
+  saveRecipe(recipe: any): Observable<any> {
+    // TODO: Implement actual recipe saving logic here
+    // For now, let's return a dummy response
+    return this.http.post<any>('url-to-save-recipe', recipe).pipe(catchError(this.handleError));
+  }
 
   private handleError(error: any): Observable<never> {
     console.error('Erreur de requête POST:', error);
@@ -99,5 +126,25 @@ export class RecipesService {
 
   setSearchQuery(query: string): void {
     this.searchQuerySubject.next(query);
+  loadRecipes(): void {
+    const dessertRecipes$ = this.getRecipeByCategory(DESSERT_CATEGORY);
+    const mainDishRecipes$ = this.getRecipeByCategory(MAIN_DISH_CATEGORY);
+    const appetizerRecipes$ = this.getRecipeByCategory(APPETIZER_CATEGORY);
+    const breakfastRecipes$ = this.getRecipeByCategory(BREAKFAST_CATEGORY);
+    const sideDishRecipes$ = this.getRecipeByCategory(SIDE_DISH_CATEGORY);
+
+    forkJoin([dessertRecipes$, mainDishRecipes$, appetizerRecipes$, breakfastRecipes$, sideDishRecipes$]).subscribe(
+      ([desserts, mainDishes, appetizers, breakfasts, sideDishes]) => {
+        this.recipes.desserts = desserts;
+        this.recipes.mainDishes = mainDishes;
+        this.recipes.appetizers = appetizers;
+        this.recipes.breakfasts = breakfasts;
+        this.recipes.sideDishes = sideDishes;
+      }
+    );
+  }
+  updateRecipes(updatedRecipes: Recipes): void {
+    this.recipes = updatedRecipes;
+    this.recipesSubject.next(this.recipes);
   }
 }

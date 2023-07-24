@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Recipes } from 'src/app/models/modelRecipe/recipes.model';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { Recipes } from 'src/app/models/recipes.model';
 import { RecipesService } from 'src/app/services/recipies/recipes.service';
-
 
 @Component({
   selector: 'app-all-recipes',

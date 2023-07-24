@@ -2,8 +2,11 @@
 @use '../../style/variables' as *;
 @use '../../style/mixin' as *;
 
-.allrecipes{
 
+
+.allrecipes{
+    margin-right:1vh ;
+    padding:$marginPage ;
     &_container{
         position: relative;
         &--card{
@@ -18,13 +21,11 @@
         right: 0%;
         height: 98%;
 
-
     }
     &--left{
         position: absolute;
         top:0%;
         height: 98%;
-
 
     }
 }
@@ -40,7 +41,6 @@
         @include buttonHover;
         opacity: 0.5;
         img{
-            filter: brightness(50);
 
         }
     }

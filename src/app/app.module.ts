@@ -73,6 +73,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     { provide: RendererFactory2, useClass: ɵDomRendererFactory2 },
     TokenService,
   ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

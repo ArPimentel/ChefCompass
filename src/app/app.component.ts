@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Users } from 'src/app/models/modelRecipe/Users.model';
 import { LoginModalComponent } from './component/login-modal/login-modal.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,14 +13,21 @@ export class AppComponent implements OnInit {
   isLoginModalVisible = false;
 
   constructor(private modalService: BsModalService) {}
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
+
+  isNavbarAbove: boolean = false;
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event){
     this.updateNavbarPosition();
   }
 
   ngOnInit(): void {
-    this.updateNavbarPosition();
     this.updateNavbarPosition();
   }
 
@@ -33,9 +41,11 @@ export class AppComponent implements OnInit {
     this.modalService.show(LoginModalComponent, {
       initialState: {},
     });
+
   }
 
   updateNavbarPosition() {
     this.isNavbarAbove = window.innerWidth > 768;
   }
+}
 }

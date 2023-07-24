@@ -24,13 +24,13 @@ span {
 .about-text{
   max-width: 850px;
   margin: 0 1vh;
+  height: 100vh;
 }
 
 .team {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-
 
   &_member {
     border-radius: 50%;
@@ -46,6 +46,8 @@ span {
       transform: translatex(-10px);
       border: solid 2px rgb(255, 136, 0);
 
+      background-color: rgb(255, 136, 0);
+      color: #fff;
     }
     & img {
       width: 150px;
@@ -95,6 +97,7 @@ span {
 
 @media (max-width: 768px) {
   section.container {
-
+    margin-top: 40.5%;
+    margin-bottom: 300px;
   }
 }

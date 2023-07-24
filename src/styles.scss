@@ -4,10 +4,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
 @import '@Angular/material/prebuilt-themes/indigo-pink.css';
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-
-
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
 
 :root {
+    --primary-color: #FFFFFF;
+    --secondardy-text-color: #F96B11;
 
   }
 
@@ -15,18 +17,23 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+
 h1,h2,h3,h4,h5,h6,b ,label{
     font-family: 'Fredoka', sans-serif; /*Title Font*/
      }
 *{
     font-family: 'Darker Grotesque', sans-serif; /*Text Font*/
 }
+
 b{
   color: $primaryColor;
 }
 p, li ,textarea, input, select, option, button{
     font-size: 1.2rem;
   margin: 0;
+
+p, li ,textarea{
+    font-size: 1.2rem;
 }
 
 a{
@@ -37,4 +44,5 @@ a{
 span{
     font-size: 1.2rem;
     font-weight: bold;
+}
 }

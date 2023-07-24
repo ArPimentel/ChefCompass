@@ -20,7 +20,18 @@ export class ConverterRecipesService {
       return hours + 'h ' + minutes + ' min';
     }
   }
+}
 
+
+
+  extractTimeInMinutes(timeString: string): number {
+    if (timeString.includes('hour')) {
+      const hours = parseInt(timeString.split(' ')[0], 10);
+      return hours * 60;
+    } else {
+      return parseInt(timeString.split(' ')[0], 10);
+    }
+  }
   getPriceSymbol(price: number): string {
     if (price <= 15) {
       return '€';
@@ -32,7 +43,8 @@ export class ConverterRecipesService {
       return '€€€€';
     }
   }
-  getFormattedRecipeName(recipe: string) {
+
+   getFormattedRecipeName(recipe:string) {
     return recipe.replace(/-/g, ' ');
   }
-}
+

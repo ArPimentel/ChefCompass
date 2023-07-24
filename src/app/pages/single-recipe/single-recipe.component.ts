@@ -17,6 +17,8 @@ import {SuccessModalComponent} from "../../component/success-modal/success-modal
   templateUrl: './single-recipe.component.html',
   styleUrls: ['./single-recipe.component.scss'],
 })
+  
+
 export class SingleRecipeComponent implements OnInit {
   recipe!: Recipe;
   routeSubscription!: Subscription;
@@ -106,6 +108,14 @@ export class SingleRecipeComponent implements OnInit {
       this.recipesService
       this.router.navigate(['/recipes']).then(() => {
         this.openConfirmationModal();
+
+
+  ngOnInit(): void {
+   
+    this.routeSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
+      const recipeName = params.get('name');
+      this.recipesService.getRecipeByName(recipeName!).subscribe((recipe: any) => {
+        this.recipe = recipe;
       });
     });
   }
@@ -118,6 +128,7 @@ export class SingleRecipeComponent implements OnInit {
       dialogRef.close();
     }, 4000);
   }
+
 
   ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
@@ -151,3 +162,12 @@ export class SingleRecipeComponent implements OnInit {
     });
 }
 }
+
+
+  addComment(recipeId: number, comment: string): void {
+    this.userService.addComment(recipeId, comment);
+    this.commentText = '';
+  }
+
+    }  
+  }

@@ -25,6 +25,8 @@ import { forbiddenCharactersValidator } from './Validators/Characters.validators
   styleUrls: ['./recipe-form.component.scss'],
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
+
+
   isFormSubmitted = false;
   errorMessage = '';
   recipe: Recipe = new Recipe();
@@ -55,6 +57,11 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  countriesList: any[] = Object.values(countries);
+  dishOptions: string[] = ['Dish', 'Dessert', 'Starter', 'Aperitif'];
+  budgetOptions: string[] = ['Low', 'Medium', 'High'];
+  errorSubject = new Subject<string>();
+
   constructor(
     private router: Router,
     @Inject(MatDialog) private dialog: any,
@@ -62,6 +69,13 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private addRecipeService: AddRecipesServicesService
   ) {
+    ngOnDestroy(): void {
+      throw new Error('Method not implemented.');
+    }
+    private formBuilder: FormBuilder
+  ) {
+    this.loadCountries();
+
     this.errorSubject.subscribe((errorMessage) => {
       const dialogRef = this.dialog.open(ErrorModalComponent);
       dialogRef.componentInstance.setMessage(errorMessage);
@@ -140,6 +154,20 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     this.diets.removeAt(index);
   }
 
+
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      typeOfDish: ['', Validators.required],
+      budget: ['', Validators.required],
+      country: ['', Validators.required],
+      prepTime: ['', Validators.required],
+      cookTime: ['', Validators.required],
+      allergens: ['', Validators.required],
+      diet: ['', Validators.required],
+      steps: ['', Validators.required],
+    });
+  }
+
+
   async onSubmit() {
     if (this.recipeForm.invalid) {
       this.markFormGroupTouched(this.recipeForm);
@@ -147,6 +175,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       this.errorSubject.next(errorMessage);
       return;
     }
+
     this.recipeForm.value.cookTime = Number(this.recipeForm.value.cookTime) || 0;
     this.recipeForm.value.prepTime = Number(this.recipeForm.value.prepTime) || 0;
     this.recipeForm.value.budget = Number(this.recipeForm.value.budget) || 0;
@@ -164,6 +193,22 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       this.router.navigate([`/recipes/${this.recipeForm.value.names.toLowerCase().replace(/\s/g, '-')}`]);
+
+
+    if (this.recipeService.modalOpen$.pipe(take(1))) {
+      // Ne pas définir isFormSubmitted à true si la fenêtre d'erreur est ouverte
+      return;
+    }
+
+    this.isFormSubmitted = true;
+
+    try {
+      await this.recipeService.saveRecipe(this.recipe).toPromise();
+      this.router.navigate(['/recipes']);
+      this.dialog.open(SuccessModalComponent, {
+        data: { message: 'Recipe added successfully' },
+      });
+
     } catch (error) {
       console.error('POST request error:', error);
       const errorMessage = 'An error occurred while saving the recipe.';
@@ -182,6 +227,39 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     this.recipeForm.reset();
   }
 
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      // Vérifier le type de fichier
+      const fileType = file.type;
+      if (fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'video/mp4') {
+        // Vérifier la taille du fichier
+        const fileSize = file.size;
+        const maxSize = 1024 * 1024 * 1024; // 1 GB
+        if (fileSize <= maxSize) {
+          // Effectuer des opérations avec le fichier
+          console.log('Nom du fichier:', file.name);
+          console.log('Type de fichier:', fileType);
+          console.log('Taille du fichier:', fileSize);
+        } else {
+          this.errorMessage = 'Erreur : La taille du fichier dépasse 1 GB.';
+        }
+      } else {
+        this.errorMessage = 'Erreur : Type de fichier non pris en charge.';
+      }
+    }
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.recipeForm.get(fieldName);
+    return field ? field.invalid && (field.dirty || field.touched || this.isFormSubmitted) : false;
+  }
+
+  private loadCountries() {
+    this.countriesList = Object.values(countries.countries);
+  }
+
+  // Fonction utilitaire pour marquer tous les champs d'un formulaire comme "touchés"
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach((control) => {
       if (control instanceof FormGroup) {
@@ -191,4 +269,13 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       }
     });
   }
-}
+
+
+  openErrorModal() {
+    this.recipeService.openModal();
+  }
+
+  function ngOnDestroy() {
+    throw new Error('Function not implemented.');
+  }
+

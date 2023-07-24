@@ -2,12 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RecipesService } from 'src/app/services/recipies/recipes.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { Subscription } from 'rxjs';
-import { Recipes } from 'src/app/models/modelRecipe/recipes.model';
+import { Recipes } from 'src/app/models/recipes.model';
 
 @Component({
   selector: 'app-favorites',
   templateUrl: './favorites.component.html',
-  styleUrls: ['./favorites.component.scss']
+  styleUrls: ['./favorites.component.scss'],
 })
 export class FavoritesComponent implements OnInit, OnDestroy {
   favoriteRecipes!: Recipes;
@@ -27,11 +27,13 @@ export class FavoritesComponent implements OnInit, OnDestroy {
   }
 
   loadFavoriteRecipes(): void {
-    this.userService.loadFavoriteRecipes().then(() => {
-      this.favoriteRecipes = this.userService.getFavoriteRecipes();
-    }).catch((error) => {
-      console.error('Error loading favorite recipes:', error);
-    });
+    this.userService
+      .loadFavoriteRecipes()
+      .then(() => {
+        this.favoriteRecipes = this.userService.getFavoriteRecipes();
+      })
+      .catch((error) => {
+        console.error('Error loading favorite recipes:', error);
+      });
   }
-
 }
